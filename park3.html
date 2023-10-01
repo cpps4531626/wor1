@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><meta http-equiv='Access-Control-Allow-Origin' content='*'><meta http-equiv='Access-Control-Allow-Credentials' content='true'><script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/GameElements_20190131/gameelements.js'></script><link rel='stylesheet' href='https://fustyles.github.io/webduino/SpBlocklyJS/css/icon_custom.css' /><script src='https://fustyles.github.io/webduino/SpBlocklyJS/SpreadsheetSQL_20210403/spreadsheetsql.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/SpreadsheetSQL_20210403/loader.js'></script></head><body><script>const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{
+var spreadsheetID, sheetName;
+
+function spreadsheetsql_QueryResponse_(res) {
+  spreadsheetsql_QueryResponse(res, "");
+}
+window.spreadsheetsql_QueryResponse_ = spreadsheetsql_QueryResponse_;
+
+
+spreadsheetID = '1Vw73T24l1Efbp_BNxY0zqN4sfvQ-V-nnlNIWCNC-vsU';
+sheetName = '工作表1';
+spreadsheetsql_settings(spreadsheetID,sheetName, "");
+button_create('park1',240,150,20,300,1,null,'停車場1',100,999,true);
+button_create('park2',240,150,620,300,1,null,'停車場2',100,999,true);
+async function gamebutton_park1_onclick (event) {
+  spreadsheetsql_executeSql('select A', "");
+  spreadsheetsql_getDataFinish_ = function(head_response, response) {
+    spreadsheetsql_getDataTable('',600,100,100,100,false,"");
+
+  };
+};
+document.getElementById("gamebutton_park1").addEventListener("click", gamebutton_park1_onclick, true);
+async function gamebutton_park2_onclick (event) {
+  spreadsheetsql_executeSql('select max(B)', "");
+  spreadsheetsql_getDataFinish_ = function(head_response, response) {
+    spreadsheetsql_getDataTable('',600,100,100,100,false,"");
+
+  };
+};
+document.getElementById("gamebutton_park2").addEventListener("click", gamebutton_park2_onclick, true);
+};main();</script></body></html>
