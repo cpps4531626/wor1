@@ -1,0 +1,281 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><meta http-equiv='Access-Control-Allow-Origin' content='*'><meta http-equiv='Access-Control-Allow-Credentials' content='true'><script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/GameElements_20190131/gameelements.js'></script><link rel='stylesheet' href='https://fustyles.github.io/webduino/SpBlocklyJS/css/icon_custom.css' /><script src='https://fustyles.github.io/webduino/SpBlocklyJS/MQTT_20220324/mqtt.min.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/SpreadsheetSQL_20210403/spreadsheetsql.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/SpreadsheetSQL_20210403/loader.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/chart_20220723/Chart.min.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/chart_20220723/pretty-doughtnut.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/chart_20220723/Chart.min.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/chart_20220723/linechart.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/SpeechRecognition_20220729/speechrecognition.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/line_20220729/line.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/chart_20220723/jquery.simpleswitch.js'></script><link href='https://fustyles.github.io/webduino/SpBlocklyJS/chart_20220723/simpleswitch.css' type='text/css' rel='stylesheet'></script></head><body><script>const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{
+var topicSubscribe, topicPublish, lineToken, driveURL, spreadsheetURL, spreadsheetID, sheetName, sensors, newdate, myTimer;
+
+  function mqttBinarytobase64(input_array) {
+    const content = new Uint8Array(input_array);
+	    return btoa(String.fromCharCode.apply(null, content));
+  }
+
+
+function spreadsheetsql_QueryResponse_(res) {
+  spreadsheetsql_QueryResponse(res, "");
+}
+window.spreadsheetsql_QueryResponse_ = spreadsheetsql_QueryResponse_;
+
+
+topicSubscribe = 'fustyles/publish';
+topicPublish = 'fustyles/subscribe';
+lineToken = 'x4cMxddD2zgPhSA1A9XEjrKtx0C9GMZhFmYKAP9OkwK';
+driveURL = 'https://script.google.com/macros/s/AKfycbyyNk52mPftTH895sKaV9lnxmgCP0xm3iZNGdCxkdY/dev';
+spreadsheetURL = 'https://docs.google.com/spreadsheets/d/1ch3TOTLKEpSWE2RNI_X64_-SWY85EoK4EX3eYHcgvnM/edit?usp=sharing';
+spreadsheetID = '1ch3TOTLKEpSWE2RNI_X64_-SWY85EoK4EX3eYHcgvnM';
+sheetName = '工作表1';
+recognition.lang="cmn-Hant-TW";
+Recognition_switch(0);
+span_interim(650,240,20,999,true);
+Recognition_recognitionFinish = async function() {
+  if ((Recognition_final_get()) == '開門') {
+    range_set('sg90',"value",180);
+    span_set('sg90_v',"innerHTML",180);
+    mqtt_client.publish(topicPublish, String(('?'+'sg90'+'='+180)));
+  } else if ((Recognition_final_get()) == '關門') {
+    range_set('sg90',"value",90);
+    span_set('sg90_v',"innerHTML",90);
+    mqtt_client.publish(topicPublish, String(('?'+'sg90'+'='+90)));
+  }
+
+};
+const clientId = "mqtt_" + Math.random().toString(16).substr(2, 8);
+const options = {
+	username: '',
+	password: '',
+	keepalive: 60,
+	clientId: clientId,
+	protocolId: "MQTT",
+	protocolVersion: 4,
+	clean: true,
+	reconnectPeriod: 1000,
+	connectTimeout: 30 * 1000
+}
+
+var mqtt_client = mqtt.connect('wss://broker.mqttgo.io:8084/mqtt',options);
+mqtt_client.on("connect", ()=>{
+	console.log("connected");
+  mqtt_client.subscribe(topicSubscribe);
+	mqtt_client.on("message", async function (topic, payload) {
+  if (topic==topicSubscribe) {
+    var sensors = (new TextDecoder().decode(payload));
+    sensors = sensors.split(',');
+    doughnutWidget.updateData('溫度', (text_to_number((sensors[0]))));
+    doughnutWidget.updateData('濕度', (text_to_number((sensors[1]))));
+    linechart({id: '', data: [(getDatetime(newdate, "datetime")), text_to_number((sensors[0])), text_to_number((sensors[1]))]});
+    doughnutWidget.updateData('亮度', (text_to_number((sensors[2]))));
+    if (($("#gamecheckbox_"+'line').is(":checked")) == true) {
+      if (sensors[0] > 36 || sensors[1] < 70) {
+        linenotify_push_message(lineToken,{'type':'text','text':(['溫溼度異常通知','\n','溫度：',sensors[0],'°C','\n','相對溼度：',sensors[1],'%'].join(''))});
+        linenotify_push_image(lineToken,"gamevideo_","");
+      }
+    }
+    if (($("#gamecheckbox_"+'drive').is(":checked")) == true) {
+      canvas_capturevideo('capture','',0,0,400,300,0,0,320,240,0,1);
+      video_base64_drive("gamecanvas_capture",'dashboard','capture.jpg',driveURL);
+    }
+    spreadsheet_insert("insertrow2", String("gmt_datetime")+"|"+String("gmt_date")+"|"+String("gmt_time")+"|"+String(sensors[0])+"|"+String(sensors[1])+"|"+String(sensors[2]), 0, 0, "", spreadsheetURL, sheetName, "https://script.google.com/macros/s/AKfycbxA3hhTlntwVTOcqngOC_iJL_zLmRwzcDbMYDs7FD8iinNsY9XZsMkD7AcXTIUbEc33EA/exec");
+    spreadsheetsql_settings(spreadsheetID,sheetName, "");
+    newdate = setDatetime(0, 0, 0, 0, 0, 0);
+    spreadsheetsql_executeSql((['select max(D) , min(D) , max(E)  ,min(E)  ,max(F) ,min(F) ','where date \'',getDatetime(newdate, "year"),'-',getDatetime(newdate, "month"),'-',getDatetime(newdate, "day"),'\' = B'].join('')), "");
+    spreadsheetsql_getDataFinish_ = function(head_response, response) {
+      spreadsheetsql_getDataTable('',450,12,60,600,true,"");
+
+    };
+  }
+   })
+  }
+)
+
+span_create('speech',550,240,20,'語音辨識：',999);
+span_create('sg90',550,50,20,'伺服馬達',999);
+span_create('sg90_v',880,60,20,'90',999);
+range_create('sg90',200,50,660,40,1,180,0,45,90,999,true);
+async function gamerange_sg90_onchange (event) {
+  span_set('sg90_v',"innerHTML",(range_get('sg90',"value")));
+  mqtt_client.publish(topicPublish, String(('?'+'sg90'+'='+(range_get('sg90',"value")))));
+};
+document.getElementById("gamerange_sg90").addEventListener("change", gamerange_sg90_onchange, true);
+simpleSwitch({
+	id: 'line',
+	width: 100,
+	height: 30,
+	left: 280,
+	top: 140,
+	text: 'Line通知',
+	size: 14,
+	color: '#33cc00',
+	val: 0,
+	func: switch_RcNCjNQMfAKWE
+});
+simpleSwitch({
+	id: 'sr',
+	width: 100,
+	height: 30,
+	left: 420,
+	top: 140,
+	text: '語音辨識',
+	size: 14,
+	color: '#cc66cc',
+	val: 0,
+	func: switch_gNXOmIlWfRc
+});
+span_create('lcd',550,100,20,'I2C 1602 顯示器',999);
+span_create('lcd_r1',550,140,20,'第一列',999);
+text_create('lcd_t1',200,30,650,140,'#ffffff','#000000',20,1,'Hello World',999,true);
+span_create('lcd_r2',550,190,20,'第二列',999);
+text_create('lcd_t2',200,30,650,190,'#ffffff','#000000',20,1,'Taiwan No.1',999,true);
+button_create('lcd',60,50,880,140,1,null,'設定',20,999,true);
+async function gamebutton_lcd_onclick (event) {
+  mqtt_client.publish(topicPublish, String(('?'+'lcd'+'='+(encodeURI((text_get('lcd_t1',"value"))))+';'+(encodeURI((text_get('lcd_t2',"value")))))));
+};
+document.getElementById("gamebutton_lcd").addEventListener("click", gamebutton_lcd_onclick, true);
+doughnutWidget.chartname['溫度'] = {
+	container: "chart_hfFjLpFbIHR",
+	width: 150,
+	height: 150,
+	left: 50,
+	top: 40,
+	cutout: 50,
+	data: {
+		val: 0,
+		min: 0,
+		max: 100,
+		color: '#ff0000',
+		unit: " "+'°C',
+		decimal: 0,
+		labelsize: 14,
+		valuesize: 10,
+		//link: "http://www.google.com",
+		//click: function(e) {
+		//	console.log("hi");
+		//}
+	}
+};
+doughnutWidget.createChart('溫度');
+doughnutWidget.chartname['濕度'] = {
+	container: "chart_KuPONjiRN",
+	width: 150,
+	height: 150,
+	left: 200,
+	top: 40,
+	cutout: 50,
+	data: {
+		val: 0,
+		min: 0,
+		max: 100,
+		color: '#3333ff',
+		unit: " "+'%',
+		decimal: 0,
+		labelsize: 14,
+		valuesize: 10,
+		//link: "http://www.google.com",
+		//click: function(e) {
+		//	console.log("hi");
+		//}
+	}
+};
+doughnutWidget.createChart('濕度');
+doughnutWidget.chartname['亮度'] = {
+	container: "chart_VDuiHYofiRwpuOjEl",
+	width: 150,
+	height: 150,
+	left: 350,
+	top: 40,
+	cutout: 50,
+	data: {
+		val: 0,
+		min: 0,
+		max: 4095,
+		color: '#ffff00',
+		unit: " "+'',
+		decimal: 0,
+		labelsize: 14,
+		valuesize: 10,
+		//link: "http://www.google.com",
+		//click: function(e) {
+		//	console.log("hi");
+		//}
+	}
+};
+doughnutWidget.createChart('亮度');
+var config = {
+	  id: '',
+	  type: "line",
+	  data: {
+			  labels: [],
+			  datasets: [
+				{  label: '溫度',  data: [],
+  borderColor: '#ff0000',  backgroundColor: '#000000'}, {  label: '濕度',  data: [],
+  borderColor: '#0000ff',  backgroundColor: '#000000'}
+			  ]
+	  },
+	  options: {
+		responsive: true,
+		maintainAspectRatio: false,
+		plugins: {
+		  legend: {
+			position: "top",
+		  },
+		  title: {
+			display: true,
+			text: '溫溼度圖表'
+		  }
+		},
+		scales: {
+				yAxes: {
+					title: {
+						display: true,
+						text: '數值',
+					},
+					ticks: {
+						precision: 0
+					}
+				},
+				xAxes: {
+					title: {
+						display: true,
+						text: '時間',
+					}
+				}
+			}
+	  },
+	  width: 500,
+	  height: 400,
+	  left: 10,
+	  top: 200,
+	  count: 5
+	};
+	linechart(config);
+video_create('',400,300,550,340,true,'',false,false,false,true,true,1,999,true);
+canvas_create('capture',320,240,550,340,0);
+mqtt_client.publish(topicPublish, String('?sg90=90'));
+mqtt_client.publish(topicPublish, String('?sensor'));
+myTimer = setInterval(async function(){
+  mqtt_client.publish(topicPublish, String('?sensor'));
+},10000);
+simpleSwitch({
+	id: 'drive',
+	width: 100,
+	height: 30,
+	left: 350,
+	top: 140,
+	text: '畫面存檔',
+	size: 14,
+	color: '#3366ff',
+	val: 0,
+	func: switch_TumiYirPW
+});
+
+function switch_RcNCjNQMfAKWE() {
+
+}
+
+function switch_gNXOmIlWfRc() {
+    if (($("#gamecheckbox_"+'sr').is(":checked")) == true) {
+    Recognition_switch(1);
+  } else {
+    Recognition_switch(0);
+  }
+
+}
+
+function switch_TumiYirPW() {
+
+}};main();</script></body></html>
