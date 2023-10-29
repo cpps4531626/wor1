@@ -1,0 +1,158 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><meta http-equiv='Access-Control-Allow-Origin' content='*'><meta http-equiv='Access-Control-Allow-Credentials' content='true'><script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/GameElements_20190131/gameelements.js'></script><link rel='stylesheet' href='https://fustyles.github.io/webduino/SpBlocklyJS/css/icon_custom.css' /><script src='https://fustyles.github.io/webduino/SpBlocklyJS/SpreadsheetSQL_20210403/spreadsheetsql.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/SpreadsheetSQL_20210403/loader.js'></script></head><body>
+<script>
+const delay = (seconds) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, seconds * 1000);
+    });
+};
+const main = async () => {
+    var i, _E8_A9_A6_E7_AE_97_E8_A1_A8ID, _E5_B7_A5_E4_BD_9C_E8_A1_A8_E5_90_8D_E7_A8_B1;
+
+    function spreadsheetsql_QueryResponse_(res) {
+        spreadsheetsql_QueryResponse(res, "");
+    }
+    window.spreadsheetsql_QueryResponse_ = spreadsheetsql_QueryResponse_;
+
+    // 描述此函式...
+    function A() {
+        spreadsheetsql_executeSql('select A,B,C,D where C = \'A\'', "");
+        spreadsheetsql_getDataFinish_ = function(head_response, response) {
+            spreadsheetsql_getDataTable('', 400, 40, 0, 270, false, "");
+
+        };
+    }
+
+    // 描述此函式...
+    function C() {
+        spreadsheetsql_executeSql('select A,B,C,D where C = \'C\'', "");
+        spreadsheetsql_getDataFinish_ = function(head_response, response) {
+            spreadsheetsql_getDataTable('', 400, 40, 0, 270, false, "");
+
+        };
+    }
+
+    // 描述此函式...
+    function B() {
+        spreadsheetsql_executeSql('select A,B,C,D where C = \'B\'', "");
+        spreadsheetsql_getDataFinish_ = function(head_response, response) {
+            spreadsheetsql_getDataTable('', 400, 40, 0, 270, false, "");
+
+        };
+    }
+
+    // 描述此函式...
+    function _E6_90_AD_E8_BB_8A() {
+        text_create('plate1', 60, 30, 100, 700, '#ffffff', '#000000', 14, 1, '車牌', 999, true);
+        text_create('6', 60, 30, 200, 700, '#ffffff', '#000000', 14, 1, '地點', 999, true);
+        text_create('people1', 60, 30, 300, 700, '#ffffff', '#000000', 14, 1, '人數', 999, true);
+        text_create('246', 40, 40, 0, 700, '#ffffff', '#000000', 14, 1, '幾公里', 999, true);
+        button_create('ok', 60, 30, 150, 750, 1, null, 'OK', 12, 999, true);
+        async function gamebutton_ok_onclick(event) {
+            spreadsheet_insert("insertlast", String() + "|" + String() + "|" + String() + "|" + String() + "|" + String() + "|" + String() + "|" + String() + "|" + String() + "|" + String() + "|" + String(text_get('plate1', "value")) + "|" + String(text_get('people1', "value")), 0, 0, "", 'https://docs.google.com/spreadsheets/d/1ey0WbVW-FNXoCZR5XFyf9_YKm5SKrSHrHDY9-b_XqAc/edit?usp=sharing', 'Car', "https://script.google.com/macros/s/AKfycbxA3hhTlntwVTOcqngOC_iJL_zLmRwzcDbMYDs7FD8iinNsY9XZsMkD7AcXTIUbEc33EA/exec");
+            alert('謝謝你減少了');
+            alert(((text_get('246', "value")) * 0.2));
+            alert('kg的碳');
+        };
+        document.getElementById("gamebutton_ok").addEventListener("click", gamebutton_ok_onclick, true);
+    }
+
+    // 描述此函式...
+    function D() {
+        spreadsheetsql_executeSql('select A,B,C,D where C = \'D\'', "");
+        spreadsheetsql_getDataFinish_ = function(head_response, response) {
+            spreadsheetsql_getDataTable('', 400, 40, 0, 270, false, "");
+
+        };
+    }
+
+    // 描述此函式...
+    function E() {
+        spreadsheetsql_executeSql('select A,B,C,D where C = \'E\'', "");
+        spreadsheetsql_getDataFinish_ = function(head_response, response) {
+            spreadsheetsql_getDataTable('', 400, 40, 0, 270, false, "");
+
+        };
+    }
+
+    // 描述此函式...
+    function _E9_96_8B_E8_BB_8A() {
+        text_create('num', 60, 30, 0, 200, '#ffffff', '#000000', 14, 1, '學號', 999, true);
+        text_create('plate', 60, 30, 100, 200, '#ffffff', '#000000', 14, 1, '車牌', 999, true);
+        text_create('place', 60, 30, 200, 200, '#ffffff', '#000000', 14, 1, '地點', 999, true);
+        text_create('people', 60, 30, 300, 200, '#ffffff', '#000000', 14, 1, '人數', 999, true);
+        button_create('ok1', 60, 30, 0, 300, 1, null, 'OK', 12, 999, true);
+        async function gamebutton_ok1_onclick(event) {
+            spreadsheet_insert("insertlast", String(text_get('num', "value")) + "|" + String(text_get('plate', "value")) + "|" + String(text_get('place', "value")) + "|" + String(text_get('people', "value")), 0, 0, "", 'https://docs.google.com/spreadsheets/d/1ey0WbVW-FNXoCZR5XFyf9_YKm5SKrSHrHDY9-b_XqAc/edit?usp=sharing', 'Car', "https://script.google.com/macros/s/AKfycbxA3hhTlntwVTOcqngOC_iJL_zLmRwzcDbMYDs7FD8iinNsY9XZsMkD7AcXTIUbEc33EA/exec");
+        };
+        document.getElementById("gamebutton_ok1").addEventListener("click", gamebutton_ok1_onclick, true);
+    }
+
+
+    i = 0;
+    _E8_A9_A6_E7_AE_97_E8_A1_A8ID = '1ey0WbVW-FNXoCZR5XFyf9_YKm5SKrSHrHDY9-b_XqAc';
+    _E5_B7_A5_E4_BD_9C_E8_A1_A8_E5_90_8D_E7_A8_B1 = 'Car';
+    span_create('1', 0, 10, 30, '共乘系統', 999);
+    select_create('1', 100, 30, 0, 100, '#ffffff', '#000000', 14, 1, [
+        ['3', ''],
+        ['1', '開車'],
+        ['2', '搭車']
+    ], '', 999, true);
+    async function gameselect_1_onchange(event) {
+        if ((select_get('1', "selectedText")) == '開車') {
+            _E9_96_8B_E8_BB_8A();
+        } else if ((select_get('1', "selectedText")) == '搭車') {
+            _E6_90_AD_E8_BB_8A();
+            span_create('100', 0, 140, 30, '查詢地點', 999);
+            select_create('2', 100, 30, 150, 140, '#ffffff', '#000000', 14, 1, [
+                ['3', 'A'],
+                ['4', 'B'],
+                ['5', 'C'],
+                ['6', 'D'],
+                ['7', 'E']
+            ], '', 999, true);
+            async function gameselect_2_onchange(event) {
+                if ((select_get('2', "selectedText")) == 'A') {
+                    A();
+                    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, _E5_B7_A5_E4_BD_9C_E8_A1_A8_E5_90_8D_E7_A8_B1, "");
+                    span_create('a', 10, 200, 30, '學號', 999);
+                    span_create('b', 200, 200, 30, '車牌', 999);
+                    span_create('c', 320, 200, 20, '地點', 999);
+                    span_create('d', 370, 200, 20, '位子', 999);
+                } else if ((select_get('2', "selectedText")) == 'B') {
+                    B();
+                    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, _E5_B7_A5_E4_BD_9C_E8_A1_A8_E5_90_8D_E7_A8_B1, "");
+                    span_create('a', 10, 200, 30, '學號', 999);
+                    span_create('b', 200, 200, 30, '車牌', 999);
+                    span_create('c', 320, 200, 20, '地點', 999);
+                    span_create('d', 370, 200, 20, '位子', 999);
+                } else if ((select_get('2', "selectedText")) == 'C') {
+                    C();
+                    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, _E5_B7_A5_E4_BD_9C_E8_A1_A8_E5_90_8D_E7_A8_B1, "");
+                    span_create('a', 10, 200, 30, '學號', 999);
+                    span_create('b', 200, 200, 30, '車牌', 999);
+                    span_create('c', 320, 200, 20, '地點', 999);
+                    span_create('d', 370, 200, 20, '位子', 999);
+                } else if ((select_get('2', "selectedText")) == 'D') {
+                    D();
+                    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, _E5_B7_A5_E4_BD_9C_E8_A1_A8_E5_90_8D_E7_A8_B1, "");
+                    span_create('a', 10, 200, 30, '學號', 999);
+                    span_create('b', 200, 200, 30, '車牌', 999);
+                    span_create('c', 320, 200, 20, '地點', 999);
+                    span_create('d', 370, 200, 20, '位子', 999);
+                } else if ((select_get('2', "selectedText")) == 'E') {
+                    E();
+                    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, _E5_B7_A5_E4_BD_9C_E8_A1_A8_E5_90_8D_E7_A8_B1, "");
+                    span_create('a', 10, 200, 30, '學號', 999);
+                    span_create('b', 200, 200, 30, '車牌', 999);
+                    span_create('c', 320, 200, 20, '地點', 999);
+                    span_create('d', 370, 200, 20, '位子', 999);
+                }
+            };
+            document.getElementById("gameselect_2").addEventListener("change", gameselect_2_onchange, true);
+        }
+    };
+    document.getElementById("gameselect_1").addEventListener("change", gameselect_1_onchange, true);
+};
+main();
+</script>
+</body></html>
