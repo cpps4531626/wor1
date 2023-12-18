@@ -1,0 +1,269 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><meta http-equiv='Access-Control-Allow-Origin' content='*'><meta http-equiv='Access-Control-Allow-Credentials' content='true'><script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/GameElements_20190131/gameelements.js'></script><link rel='stylesheet' href='https://fustyles.github.io/webduino/SpBlocklyJS/css/icon_custom.css' /><script src='https://fustyles.github.io/webduino/SpBlocklyJS/SpreadsheetSQL_20210403/spreadsheetsql.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/SpreadsheetSQL_20210403/loader.js'></script></head><body>
+<script>
+const delay = (seconds) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, seconds * 1000);
+    });
+};
+const main = async () => {
+    var i, _E8_A9_A6_E7_AE_97_E8_A1_A8ID;
+
+    function mathRandomInt(a, b) {
+        if (a > b) {
+            // Swap a and b to ensure a is smaller.
+            var c = a;
+            a = b;
+            b = c;
+        }
+        return Math.floor(Math.random() * (b - a + 1) + a);
+    }
+
+    function colourRgb(r, g, b) {
+        r = Math.max(Math.min(Number(r), 100), 0) * 2.55;
+        g = Math.max(Math.min(Number(g), 100), 0) * 2.55;
+        b = Math.max(Math.min(Number(b), 100), 0) * 2.55;
+        r = ('0' + (Math.round(r) || 0).toString(16)).slice(-2);
+        g = ('0' + (Math.round(g) || 0).toString(16)).slice(-2);
+        b = ('0' + (Math.round(b) || 0).toString(16)).slice(-2);
+        return '#' + r + g + b;
+    }
+
+    function spreadsheetsql_QueryResponse_(res) {
+        spreadsheetsql_QueryResponse(res, "");
+    }
+    window.spreadsheetsql_QueryResponse_ = spreadsheetsql_QueryResponse_;
+
+    // 描述此函式...
+    function delete2() {
+        spreadsheetsql_clearDataTable('A');
+        spreadsheetsql_clearDataTable('B');
+        spreadsheetsql_clearDataTable('C');
+        spreadsheetsql_clearDataTable('D');
+        spreadsheetsql_clearDataTable('E');
+    }
+
+    // 描述此函式...
+    function A() {
+        spreadsheetsql_executeSql('select A,B,C,D,E where C = \'A\'', "");
+        spreadsheetsql_getDataFinish_ = function(head_response, response) {
+            spreadsheetsql_getDataTable('A', 1000, 40, 0, 270, true, "");
+
+        };
+    }
+
+    // 描述此函式...
+    function B() {
+        spreadsheetsql_executeSql('select A,B,C,D,E where C = \'B\'', "");
+        spreadsheetsql_getDataFinish_ = function(head_response, response) {
+            spreadsheetsql_getDataTable('B', 1000, 40, 0, 270, true, "");
+
+        };
+    }
+
+    // 描述此函式...
+    function C() {
+        spreadsheetsql_executeSql('select A,B,C,D,E where C = \'C\'', "");
+        spreadsheetsql_getDataFinish_ = function(head_response, response) {
+            spreadsheetsql_getDataTable('C', 1000, 40, 0, 270, true, "");
+
+        };
+    }
+
+    // 描述此函式...
+    function D() {
+        spreadsheetsql_executeSql('select A,B,C,D,E where C = \'D\'', "");
+        spreadsheetsql_getDataFinish_ = function(head_response, response) {
+            spreadsheetsql_getDataTable('D', 1000, 40, 0, 270, true, "");
+
+        };
+    }
+
+    // 描述此函式...
+    function E() {
+        spreadsheetsql_executeSql('select A,B,C,D,E where C = \'B\'', "");
+        spreadsheetsql_getDataFinish_ = function(head_response, response) {
+            spreadsheetsql_getDataTable('E', 1000, 40, 0, 270, true, "");
+
+        };
+    }
+
+    // 描述此函式...
+    function _E6_90_AD_E8_BB_8A() {
+        text_create('plate1', 60, 30, 150, 700, '#ffffff', '#000000', 14, 1, '車牌', 999, true);
+        text_create('6', 60, 30, 250, 700, '#ffffff', '#000000', 14, 1, '社區地點', 999, true);
+        text_create('people1', 60, 30, 350, 700, '#ffffff', '#000000', 14, 1, '搭車人數', 999, true);
+        text_create('246', 60, 30, 50, 700, '#ffffff', '#000000', 14, 1, '公里數', 999, true);
+        text_create('parents', 60, 30, 450, 700, '#ffffff', '#000000', 14, 1, '家長姓名', 999, true);
+        text_create('telephone', 75, 30, 550, 700, '#ffffff', '#000000', 14, 1, '聯絡電話', 999, true);
+        a_create('124', 100, 30, 100, 600, "solid", 1, '#000000', '#ffffff', '#000000', 20, 1, 'Google map', 'https://www.google.com.tw/maps', "_blank", 999, true);
+        button_create('ok', 60, 30, 320, 780, 1, null, 'OK', 12, 999, true);
+        async function gamebutton_ok_onclick(event) {
+            spreadsheet_insert("insertlast", String(text_get('plate1', "value")) + "|" + String(text_get('6', "value")) + "|" + String(text_get('people1', "value")) + "|" + String(text_get('246', "value")) + "|" + String(text_get('parents', "value")) + "|" + String(text_get('telephone', "value")) + "|" + String((text_to_number((text_get('246', "value")))) * 0.2), 0, 0, "", 'https://docs.google.com/spreadsheets/d/1ey0WbVW-FNXoCZR5XFyf9_YKm5SKrSHrHDY9-b_XqAc/edit?usp=sharing', 'passenger', "https://script.google.com/macros/s/AKfycbxA3hhTlntwVTOcqngOC_iJL_zLmRwzcDbMYDs7FD8iinNsY9XZsMkD7AcXTIUbEc33EA/exec");
+            alert((['謝謝您減少了', (text_to_number((text_get('246', "value")))) * 0.2, 'kg的碳排'].join('')));
+        };
+        document.getElementById("gamebutton_ok").addEventListener("click", gamebutton_ok_onclick, true);
+    }
+
+    // 描述此函式...
+    function del_drive() {
+        span_delete('time');
+        datetime_delete('date');
+        text_delete('num');
+        text_delete('plate');
+        text_delete('place');
+        text_delete('people');
+        button_delete('ok1');
+    }
+
+    // 描述此函式...
+    function del_pass() {
+        text_delete('plate1');
+        text_delete('6');
+        text_delete('people1');
+        text_delete('246');
+        text_delete('parents');
+        text_delete('telephone');
+        a_delete('124');
+        button_delete('ok');
+    }
+
+    // 描述此函式...
+    function _E9_96_8B_E8_BB_8A() {
+        span_create('time', 0, 150, 14, '選擇開車時間', 999);
+        datetime_create('date', 100, 150, '2020-09-28T00:00', 1, 999, true);
+        async function gamedatetime_date_onchange(event) {
+            text_create('num', 60, 30, 0, 200, '#ffffff', '#000000', 14, 1, '學號', 999, true);
+            text_create('plate', 60, 30, 100, 200, '#ffffff', '#000000', 14, 1, '車牌', 999, true);
+            text_create('place', 60, 30, 200, 200, '#ffffff', '#000000', 14, 1, '社區地點', 999, true);
+            text_create('people', 60, 30, 300, 200, '#ffffff', '#000000', 14, 1, '可載人數', 999, true);
+            button_create('ok1', 60, 30, 100, 300, 1, null, 'OK', 12, 999, true);
+            async function gamebutton_ok1_onclick(event) {
+                spreadsheet_insert("insertlast", String(text_get('num', "value")) + "|" + String(text_get('plate', "value")) + "|" + String(text_get('place', "value")) + "|" + String(text_get('people', "value")) + "|" + String(datetime_get('date', "value")), 0, 0, "", 'https://docs.google.com/spreadsheets/d/1ey0WbVW-FNXoCZR5XFyf9_YKm5SKrSHrHDY9-b_XqAc/edit?usp=sharing', 'driver', "https://script.google.com/macros/s/AKfycbxA3hhTlntwVTOcqngOC_iJL_zLmRwzcDbMYDs7FD8iinNsY9XZsMkD7AcXTIUbEc33EA/exec");
+            };
+            document.getElementById("gamebutton_ok1").addEventListener("click", gamebutton_ok1_onclick, true);
+        };
+        document.getElementById("gamedatetime_date").addEventListener("change", gamedatetime_date_onchange, true);
+    }
+
+    // 描述此函式...
+    function _E5_85_B1_E4_B9_98_E6_9F_A5_E8_A9_A2() {
+        text_create('coperson', 60, 30, 120, 150, '#ffffff', '#000000', 14, 1, '輸入車牌', 999, true);
+        button_create('check', 60, 30, 120, 200, 1, null, '確定', 14, 999, true);
+        async function gamebutton_check_onclick(event) {
+            spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, 'passenger', "");
+            spreadsheetsql_executeSql((['select A,B,C,E,F where A = \'', text_get('coperson', "value"), '\''].join('')), "");
+            spreadsheetsql_getDataFinish_ = function(head_response, response) {
+                spreadsheetsql_getDataTable('coperson', 600, 14, 50, 300, true, "");
+
+            };
+        };
+        document.getElementById("gamebutton_check").addEventListener("click", gamebutton_check_onclick, true);
+    }
+
+    // 描述此函式...
+    function del_search() {
+        text_delete('coperson');
+        button_delete('check');
+    }
+
+
+    head_add_viewport(1, 1, 2, "yes");
+    body_set("backgroundColor", (colourRgb(mathRandomInt(50, 200), mathRandomInt(50, 100), mathRandomInt(50, 100))));
+    i = 0;
+    _E8_A9_A6_E7_AE_97_E8_A1_A8ID = '1ey0WbVW-FNXoCZR5XFyf9_YKm5SKrSHrHDY9-b_XqAc';
+    span_create('1', 100, 10, 30, '共乘系統', 999);
+    span_create('2', 230, 20, 20, '統計已減少碳排放:', 999);
+    span_create('3', 480, 20, 20, 'kg of CO2e', 999);
+    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, 'passenger', "");
+    spreadsheetsql_executeSql('select H limit 1 offset 0', "");
+    spreadsheetsql_getDataFinish_ = function(head_response, response) {
+        spreadsheetsql_getDataTable('', 70, 20, 400, 20, false, "");
+
+    };
+    select_create('1', 100, 30, 100, 100, '#ffffff', '#000000', 14, 1, [
+        ['100', ''],
+        ['1', '開車'],
+        ['2', '搭車'],
+        ['3', '共乘查詢']
+    ], '', 999, true);
+    async function gameselect_1_onchange(event) {
+        if ((select_get('1', "selectedText")) == '開車') {
+            _E9_96_8B_E8_BB_8A();
+            select_delete('2');
+            span_delete('100');
+            delete2();
+            del_pass();
+            del_search();
+            spreadsheetsql_clearDataTable('coperson');
+        } else if ((select_get('1', "selectedText")) == '搭車') {
+            span_create('100', 0, 140, 30, '查詢社區地點', 999);
+            select_create('2', 100, 30, 180, 145, '#ffffff', '#000000', 14, 1, [
+                ['12345', ''],
+                ['3', 'A'],
+                ['4', 'B'],
+                ['5', 'C'],
+                ['6', 'D'],
+                ['7', 'E']
+            ], '', 999, true);
+            delete2();
+            del_drive();
+            del_search();
+            spreadsheetsql_clearDataTable('coperson');
+            async function gameselect_2_onchange(event) {
+                if ((select_get('2', "selectedText")) == 'A') {
+                    spreadsheetsql_clearDataTable('B');
+                    spreadsheetsql_clearDataTable('C');
+                    spreadsheetsql_clearDataTable('D');
+                    spreadsheetsql_clearDataTable('E');
+                    A();
+                    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, 'count', "");
+                    _E6_90_AD_E8_BB_8A();
+                } else if ((select_get('2', "selectedText")) == 'B') {
+                    spreadsheetsql_clearDataTable('A');
+                    spreadsheetsql_clearDataTable('C');
+                    spreadsheetsql_clearDataTable('D');
+                    spreadsheetsql_clearDataTable('E');
+                    B();
+                    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, 'count', "");
+                    _E6_90_AD_E8_BB_8A();
+                } else if ((select_get('2', "selectedText")) == 'C') {
+                    spreadsheetsql_clearDataTable('A');
+                    spreadsheetsql_clearDataTable('B');
+                    spreadsheetsql_clearDataTable('D');
+                    spreadsheetsql_clearDataTable('E');
+                    C();
+                    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, 'count', "");
+                    _E6_90_AD_E8_BB_8A();
+                } else if ((select_get('2', "selectedText")) == 'D') {
+                    spreadsheetsql_clearDataTable('A');
+                    spreadsheetsql_clearDataTable('B');
+                    spreadsheetsql_clearDataTable('C');
+                    spreadsheetsql_clearDataTable('E');
+                    D();
+                    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, 'count', "");
+                    _E6_90_AD_E8_BB_8A();
+                } else if ((select_get('2', "selectedText")) == 'E') {
+                    spreadsheetsql_clearDataTable('A');
+                    spreadsheetsql_clearDataTable('B');
+                    spreadsheetsql_clearDataTable('C');
+                    spreadsheetsql_clearDataTable('D');
+                    E();
+                    spreadsheetsql_settings(_E8_A9_A6_E7_AE_97_E8_A1_A8ID, 'count', "");
+                    _E6_90_AD_E8_BB_8A();
+                }
+            };
+            document.getElementById("gameselect_2").addEventListener("change", gameselect_2_onchange, true);
+        } else if ((select_get('1', "selectedText")) == '共乘查詢') {
+            _E5_85_B1_E4_B9_98_E6_9F_A5_E8_A9_A2();
+            delete2();
+            del_pass();
+            del_drive();
+            select_delete('2');
+            span_delete('100');
+        }
+    };
+    document.getElementById("gameselect_1").addEventListener("change", gameselect_1_onchange, true);
+};
+main();
+</script>
+</body></html>
