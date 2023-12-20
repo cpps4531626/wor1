@@ -1,0 +1,83 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><meta http-equiv='Access-Control-Allow-Origin' content='*'><meta http-equiv='Access-Control-Allow-Credentials' content='true'><script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script><script src='https://fustyles.github.io/webduino/SpBlocklyJS/GameElements_20190131/gameelements.js'></script><link rel='stylesheet' href='https://fustyles.github.io/webduino/SpBlocklyJS/css/icon_custom.css' /><script src='https://fustyles.github.io/webduino/SpBlocklyJS/MQTT_20220324/mqtt.min.js'></script></head><body>
+<script>
+const delay = (seconds) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, seconds * 1000);
+    });
+};
+const main = async () => {
+    var MOVE;
+
+
+    MOVE = 0;
+    for (var count = 0; count < 20; count++) {
+        span_create('1', 195, 70, 20, 'A站', 999);
+        span_create('2', 390, 70, 20, 'B站', 999);
+        span_create('3', 0, 70, 20, '起點', 999);
+        span_create('4', 580, 70, 20, '終點', 999);
+        const clientId = "mqtt_" + Math.random().toString(16).substr(2, 8);
+        const options = {
+            username: '',
+            password: '',
+            keepalive: 60,
+            clientId: clientId,
+            protocolId: "MQTT",
+            protocolVersion: 4,
+            clean: true,
+            reconnectPeriod: 1000,
+            connectTimeout: 30 * 1000
+        }
+
+        var mqtt_client = mqtt.connect('wss://broker.mqttgo.io:8084/mqtt', options);
+        mqtt_client.on("connect", () => {
+            console.log("connected");
+            mqtt_client.subscribe('cpps/topic');
+            mqtt_client.on("message", async function(topic, payload) {
+                if (topic == 'cpps/topic') {
+                    span_create('5', 390, 120, 30, '', 999);
+                    icon_google("span", '5', 'attribution');
+                }
+            })
+        })
+
+        MOVE = (typeof MOVE === 'number' ? MOVE : 0) + 5;
+        await delay(1);
+        progress_create('1', 30, 100, 100, MOVE, 1, 999, true);
+        progress_create('2', 225, 100, 100, 0, 1, 999, true);
+        progress_create('3', 425, 100, 100, 0, 1, 999, true);
+    }
+    MOVE = 0;
+    for (var count2 = 0; count2 < 20; count2++) {
+        MOVE = (typeof MOVE === 'number' ? MOVE : 0) + 5;
+        await delay(0.5);
+        progress_create('2', 225, 100, 100, MOVE, 1, 999, true);
+        const clientId = "mqtt_" + Math.random().toString(16).substr(2, 8);
+        const options = {
+            username: '',
+            password: '',
+            keepalive: 60,
+            clientId: clientId,
+            protocolId: "MQTT",
+            protocolVersion: 4,
+            clean: true,
+            reconnectPeriod: 1000,
+            connectTimeout: 30 * 1000
+        }
+
+        var mqtt_client = mqtt.connect('wss://broker.mqttgo.io:8084/mqtt', options);
+        mqtt_client.on("connect", () => {
+            console.log("connected");
+            mqtt_client.subscribe('cpps/topic');
+            mqtt_client.on("message", async function(topic, payload) {
+                if (topic == 'cpps/topic') {
+                    span_create('6', 390, 120, 30, '', 999);
+                    icon_google("span", '6', 'attribution');
+                }
+            })
+        })
+
+    }
+};
+main();
+</script>
+</body></html>
